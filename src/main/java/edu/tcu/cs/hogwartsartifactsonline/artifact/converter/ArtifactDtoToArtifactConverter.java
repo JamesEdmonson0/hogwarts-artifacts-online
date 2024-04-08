@@ -7,7 +7,7 @@ import edu.tcu.cs.hogwartsartifactsonline.artifact.Artifact;
 import edu.tcu.cs.hogwartsartifactsonline.artifact.dto.ArtifactDto;;
 
 @Component
-public class AtrifactDtoToArtifactConverter implements Converter<ArtifactDto, Artifact>{
+public class ArtifactDtoToArtifactConverter implements Converter<ArtifactDto, Artifact>{
 
   @Override
   public Artifact convert(ArtifactDto source) {
