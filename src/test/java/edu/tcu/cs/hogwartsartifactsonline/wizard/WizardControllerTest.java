@@ -2,8 +2,8 @@ package edu.tcu.cs.hogwartsartifactsonline.wizard;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.tcu.cs.hogwartsartifactsonline.artifact.Artifact;
-import edu.tcu.cs.hogwartsartifactsonline.artifact.ArtifactNotFoundException;
 import edu.tcu.cs.hogwartsartifactsonline.system.StatusCode;
+import edu.tcu.cs.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import edu.tcu.cs.hogwartsartifactsonline.wizard.dto.WizardDto;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -136,7 +136,7 @@ class WizardControllerTest {
     @Test
     void testFindWizardByIdNotFound() throws Exception {
         // Given. Arrange inputs and targets. Define the behavior of Mock object wizardService.
-        given(this.wizardService.findById(5)).willThrow(new WizardNotFoundException(5));
+        given(this.wizardService.findById(5)).willThrow(new ObjectNotFoundException("wizard",5));
 
         // When and then
         this.mockMvc.perform(get("/api/v1/wizards/5").accept(MediaType.APPLICATION_JSON))
@@ -194,7 +194,7 @@ class WizardControllerTest {
     @Test
     void testUpdateWizardErrorWithNonExistentId() throws Exception {
         // Given. Arrange inputs and targets. Define the behavior of Mock object wizardService.
-        given(this.wizardService.update(eq(5), Mockito.any(Wizard.class))).willThrow(new WizardNotFoundException(5));
+        given(this.wizardService.update(eq(5), Mockito.any(Wizard.class))).willThrow(new ObjectNotFoundException("wizard",5));
 
         WizardDto wizardDto = new WizardDto(5, // This id does not exist in the database.
                                             "Updated wizard name",
@@ -226,7 +226,7 @@ class WizardControllerTest {
     @Test
     void testDeleteWizardErrorWithNonExistentId() throws Exception {
         // Given. Arrange inputs and targets. Define the behavior of Mock object wizardService.
-        doThrow(new WizardNotFoundException(5)).when(this.wizardService).delete(5);
+        doThrow(new ObjectNotFoundException("wizard",5)).when(this.wizardService).delete(5);
 
         // When and then
         this.mockMvc.perform(delete("/api/v1/wizards/5").accept(MediaType.APPLICATION_JSON))
@@ -252,7 +252,7 @@ class WizardControllerTest {
     @Test
     void testAssignArtifactErrorWithNonExistentWizardId() throws Exception {
         // Given
-        doThrow(new WizardNotFoundException(5)).when(this.wizardService).assignArtifact(5, "1250808601744904191");
+        doThrow(new ObjectNotFoundException("wizard",5)).when(this.wizardService).assignArtifact(5, "1250808601744904191");
 
         // When and then
         this.mockMvc.perform(put("/api/v1/wizards/5/artifacts/1250808601744904191").accept(MediaType.APPLICATION_JSON))
@@ -265,7 +265,7 @@ class WizardControllerTest {
     @Test
     void testAssignArtifactErrorWithNonExistentArtifactId() throws Exception {
         // Given
-        doThrow(new ArtifactNotFoundException("1250808601744904199")).when(this.wizardService).assignArtifact(2, "1250808601744904199");
+        doThrow(new ObjectNotFoundException("artifact", "1250808601744904199")).when(this.wizardService).assignArtifact(2, "1250808601744904199");
 
         // When and then
         this.mockMvc.perform(put("/api/v1/wizards/2/artifacts/1250808601744904199").accept(MediaType.APPLICATION_JSON))
