@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.tcu.cs.hogwartsartifactsonline.artifact.converter.ArtifactToArtifactDtoConverter;
-import edu.tcu.cs.hogwartsartifactsonline.artifact.converter.AtrifactDtoToArtifactConverter;
+import edu.tcu.cs.hogwartsartifactsonline.artifact.converter.ArtifactDtoToArtifactConverter;
 import edu.tcu.cs.hogwartsartifactsonline.artifact.dto.ArtifactDto;
 import edu.tcu.cs.hogwartsartifactsonline.system.Result;
 import edu.tcu.cs.hogwartsartifactsonline.system.StatusCode;
@@ -32,13 +32,13 @@ public class ArtifactController {
 
   private final ArtifactToArtifactDtoConverter artifactToArtifactDtoConverter;
 
-  private final AtrifactDtoToArtifactConverter atrifactDtoToArtifactConverter;
+  private final ArtifactDtoToArtifactConverter artifactDtoToArtifactConverter;
 
 
-  public ArtifactController(ArtifactService artifactService, ArtifactToArtifactDtoConverter artifactToArtifactDtoConverter, AtrifactDtoToArtifactConverter atrifactDtoToArtifactConverter) {
+  public ArtifactController(ArtifactService artifactService, ArtifactToArtifactDtoConverter artifactToArtifactDtoConverter, ArtifactDtoToArtifactConverter artifactDtoToArtifactConverter) {
     this.artifactService = artifactService;
     this.artifactToArtifactDtoConverter = artifactToArtifactDtoConverter;
-    this.atrifactDtoToArtifactConverter = atrifactDtoToArtifactConverter;
+    this.artifactDtoToArtifactConverter = artifactDtoToArtifactConverter;
   }
   
 
@@ -63,7 +63,7 @@ public class ArtifactController {
   @PostMapping
   public Result addArtifact(@Valid @RequestBody ArtifactDto artifactDto) {
     //convert artifactDto to Artifact
-    Artifact newArtifact = this.atrifactDtoToArtifactConverter.convert(artifactDto);
+    Artifact newArtifact = this.artifactDtoToArtifactConverter.convert(artifactDto);
     Artifact savedArtifact = this.artifactService.save(newArtifact);
     ArtifactDto savedArtifactDto = this.artifactToArtifactDtoConverter.convert(savedArtifact);
     return new Result(true, StatusCode.SUCCESS, "Add Success", savedArtifactDto);
@@ -71,7 +71,7 @@ public class ArtifactController {
 
   @PutMapping("/{artifactId}")
   public Result updateArtifact(@PathVariable String artifactId, @Valid @RequestBody ArtifactDto artifactDto) {
-    Artifact update = this.atrifactDtoToArtifactConverter.convert(artifactDto);
+    Artifact update = this.artifactDtoToArtifactConverter.convert(artifactDto);
     Artifact updatedArtifact = this.artifactService.update(artifactId, update);
     ArtifactDto updateArtifactDto = this.artifactToArtifactDtoConverter.convert(updatedArtifact);
     return new Result(true, StatusCode.SUCCESS, "Update Success", updateArtifactDto);
