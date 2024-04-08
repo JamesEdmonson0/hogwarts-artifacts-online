@@ -107,6 +107,7 @@ public class ArtifactServiceTest {
 
         // When
         Throwable thrown = catchThrowable(() -> {
+            @SuppressWarnings("unused")
             Artifact returnedArtifact = this.artifactService.findById("1250808601744904192");
         });
 
