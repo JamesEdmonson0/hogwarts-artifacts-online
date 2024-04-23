@@ -1,34 +1,35 @@
 package edu.tcu.cs.hogwartsartifactsonline.system;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
 import edu.tcu.cs.hogwartsartifactsonline.artifact.Artifact;
 import edu.tcu.cs.hogwartsartifactsonline.artifact.ArtifactRepository;
 import edu.tcu.cs.hogwartsartifactsonline.hogwartsuser.HogwartsUser;
 import edu.tcu.cs.hogwartsartifactsonline.hogwartsuser.UserService;
-import edu.tcu.cs.hogwartsartifactsonline.wizard.*;
-
+import edu.tcu.cs.hogwartsartifactsonline.wizard.Wizard;
+import edu.tcu.cs.hogwartsartifactsonline.wizard.WizardRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 @Component
+@Profile("dev")
 public class DBDataInitializer implements CommandLineRunner {
 
-  private final ArtifactRepository artifactRepository;
+    private final ArtifactRepository artifactRepository;
 
-  private final WizardRepository wizardRepository;
+    private final WizardRepository wizardRepository;
 
-  private final UserService userService;
+    private final UserService userService;
 
-  public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository, UserService userService) {
-    this.artifactRepository = artifactRepository;
-    this.wizardRepository = wizardRepository;
-    this.userService = userService;
-  }
-  
 
-  @Override
-  public void run(String... args) throws Exception {
-    Artifact a1 = new Artifact();
+    public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository, UserService userService) {
+        this.artifactRepository = artifactRepository;
+        this.wizardRepository = wizardRepository;
+        this.userService = userService;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        Artifact a1 = new Artifact();
         a1.setId("1250808601744904191");
         a1.setName("Deluminator");
         a1.setDescription("A Deluminator is a device invented by Albus Dumbledore that resembles a cigarette lighter. It is used to remove or absorb (as well as return) the light from any light source to provide cover to the user.");
@@ -67,19 +68,19 @@ public class DBDataInitializer implements CommandLineRunner {
         Wizard w1 = new Wizard();
         w1.setId(1);
         w1.setName("Albus Dumbledore");
-        w1.addArtifact(a1); //delum
-        w1.addArtifact(a3); //elder
+        w1.addArtifact(a1);
+        w1.addArtifact(a3);
 
         Wizard w2 = new Wizard();
         w2.setId(2);
         w2.setName("Harry Potter");
-        w2.addArtifact(a2); //invis
-        w2.addArtifact(a4); //map
+        w2.addArtifact(a2);
+        w2.addArtifact(a4);
 
         Wizard w3 = new Wizard();
         w3.setId(3);
         w3.setName("Neville Longbottom");
-        w3.addArtifact(a5); //sword
+        w3.addArtifact(a5);
 
         wizardRepository.save(w1);
         wizardRepository.save(w2);
@@ -112,5 +113,6 @@ public class DBDataInitializer implements CommandLineRunner {
         this.userService.save(u1);
         this.userService.save(u2);
         this.userService.save(u3);
-  }
+    }
+
 }
