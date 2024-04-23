@@ -21,8 +21,8 @@ public class WizardController {
 
     private final WizardToWizardDtoConverter wizardToWizardDtoConverter; // Convert Wizard to WizardDto.
 
-    public WizardController(WizardService wizardService, WizardDtoToWizardConverter wizardDtoToWizardConverter,
-            WizardToWizardDtoConverter wizardToWizardDtoConverter) {
+
+    public WizardController(WizardService wizardService, WizardDtoToWizardConverter wizardDtoToWizardConverter, WizardToWizardDtoConverter wizardToWizardDtoConverter) {
         this.wizardService = wizardService;
         this.wizardDtoToWizardConverter = wizardDtoToWizardConverter;
         this.wizardToWizardDtoConverter = wizardToWizardDtoConverter;
